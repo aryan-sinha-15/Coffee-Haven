@@ -1,0 +1,445 @@
+/* ===== GENERAL RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #fff8f0;
+    color: #333;
+    line-height: 1.6;
+    padding-bottom: 60px;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* ===== TYPOGRAPHY ===== */
+  h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    color: #4b2e2e;
+  }
+  
+  h2 {
+    font-size: 36px;
+    margin: 40px 0 10px;
+    text-align: center;
+  }
+  
+  /* ===== NAVBAR ===== */
+  .navbar {
+    background-color: #4b2e2e;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .navbar .logo {
+    font-size: 28px;
+  }
+  
+  .navbar .logo span {
+    color: #ffb347;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+  }
+  
+  .nav-links li {
+    margin-left: 20px;
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    color: #ffb347;
+  }
+  
+  /* ===== HERO SECTION ===== */
+  .hero {
+    text-align: center;
+    padding: 120px 20px 80px;
+    background: url('assets/images/espresso.jpg') no-repeat center center/cover;
+    color: white;
+    margin-top: 60px;
+  }
+  
+  .hero h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+  }
+  
+  .hero p {
+    font-size: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+  }
+  
+  /* ===== MENU SECTION ===== */
+  .menu-section {
+    padding: 40px 0;
+  }
+  
+  .menu-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+  }
+  
+  .menu-card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .menu-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .menu-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  .menu-card h3 {
+    padding: 15px 15px 5px;
+    font-size: 22px;
+    color: #4b2e2e;
+  }
+  
+  .menu-card p {
+    padding: 0 15px 15px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* ===== REVIEW PAGE STYLES ===== */
+  .review-header {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/images/review-bg.jpg') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 120px 20px 80px;
+    margin-top: 60px;
+  }
+  
+  .review-header h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+    background: transparent;
+  }
+  
+  .review-header p {
+    font-size: 20px;
+    background: transparent;
+  }
+  
+  .review-container {
+    padding: 40px 0;
+  }
+  
+  .review-form-section, .reviews-display {
+    margin-bottom: 40px;
+  }
+  
+  .review-form-section h2, .reviews-display h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+  
+  .review-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #4b2e2e;
+  }
+  
+  .form-group input, 
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 16px;
+    transition: border 0.3s;
+  }
+  
+  .form-group input:focus, 
+  .form-group textarea:focus {
+    border-color: #ffb347;
+    outline: none;
+  }
+  
+  .form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+  
+  .rating-stars {
+    direction: rtl;
+    display: inline-block;
+  }
+  
+  .rating-stars input {
+    display: none;
+  }
+  
+  .rating-stars label {
+    color: #ddd;
+    font-size: 28px;
+    padding: 0 5px;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .rating-stars input:checked ~ label,
+  .rating-stars label:hover,
+  .rating-stars label:hover ~ label {
+    color: #ffb347;
+  }
+  
+  .rating-stars input:checked + label {
+    color: #ffb347;
+  }
+  
+  .btn-submit {
+    background-color: #4b2e2e;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    font-weight: 600;
+  }
+  
+  .btn-submit:hover {
+    background-color: #ffb347;
+    color: #4b2e2e;
+  }
+  
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+  }
+  
+  .review-card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .review-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .review-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .reviewer-info h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .review-rating {
+    color: #ffb347;
+    font-size: 16px;
+  }
+  
+  .review-date {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .review-content p {
+    color: #555;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  
+  /* ===== CONTACT SECTION ===== */
+  .contact-section {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  
+  .contact-section p {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 16px;
+  }
+  
+  .contact-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #4b2e2e;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: border 0.3s;
+  }
+  
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: #ffb347;
+    outline: none;
+  }
+  
+  .submit-btn {
+    background-color: #4b2e2e;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #ffb347;
+    color: #4b2e2e;
+  }
+  
+  /* ===== FOOTER ===== */
+  footer {
+    background-color: #4b2e2e;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  /* ===== RESPONSIVE STYLES ===== */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      padding: 15px;
+    }
+  
+    .nav-links {
+      margin-top: 15px;
+      width: 100%;
+      justify-content: space-around;
+    }
+  
+    .nav-links li {
+      margin-left: 0;
+    }
+  
+    .hero h1 {
+      font-size: 36px;
+    }
+  
+    .hero p {
+      font-size: 18px;
+    }
+  
+    .review-header h1 {
+      font-size: 32px;
+    }
+  
+    .review-form-section h2, 
+    .reviews-display h2 {
+      font-size: 28px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero {
+      padding: 100px 20px 60px;
+    }
+  
+    .hero h1 {
+      font-size: 28px;
+    }
+  
+    .hero p {
+      font-size: 16px;
+    }
+  
+    h2 {
+      font-size: 28px;
+    }
+  
+    .review-form {
+      padding: 20px;
+    }
+  
+    .rating-stars label {
+      font-size: 24px;
+    }
+  
+    .reviews-grid {
+      grid-template-columns: 1fr;
+    }
+  }

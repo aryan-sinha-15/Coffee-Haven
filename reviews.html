@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews | Brew Haven</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== MODERN REVIEWS PAGE ===== */
+        :root {
+            --primary: #4b2e2e;  /* Coffee brown */
+            --accent: #ffb347;   /* Warm gold */
+            --light: #fff8f0;    /* Cream background */
+            --dark: #2a1a0a;     /* Dark brown */
+            --white: #ffffff;
+            --gray: #6c757d;
+        }
+
+        /* === BASE STYLES === */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* === NAVBAR (Consistent with other pages) === */
+        .navbar {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .navbar .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* === REVIEWS HERO SECTION === */
+        .reviews-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('assets/images/review-hero.jpg') center/cover no-repeat;
+            color: var(--white);
+            text-align: center;
+            padding: 120px 0 80px;
+            margin-top: 70px;
+        }
+
+        .reviews-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .reviews-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* === REVIEWS CONTENT SECTION === */
+        .reviews-content {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto 0;
+        }
+
+        /* === REVIEW FORM (Elegant & Interactive) === */
+        .review-form-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 700px;
+            margin: 0 auto 60px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .review-form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-form h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* === STAR RATING (Interactive & Beautiful) === */
+        .rating-container {
+            margin-bottom: 25px;
+        }
+
+        .rating-title {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 5px;
+        }
+
+        .rating-stars input {
+            display: none;
+        }
+
+        .rating-stars label {
+            font-size: 28px;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .rating-stars label:hover,
+        .rating-stars input:checked ~ label {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        /* === SUBMIT BUTTON (Premium Look) === */
+        .submit-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 14px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 179, 71, 0.3);
+        }
+
+        /* === REVIEWS GRID (Modern Card Layout) === */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .review-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .reviewer-info h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .review-date {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .review-rating {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .review-content p {
+            color: var(--dark);
+            line-height: 1.7;
+        }
+
+        /* === FOOTER (Consistent with other pages) === */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 768px) {
+            .reviews-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .review-form-container {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .reviews-hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .review-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- === NAVBAR === -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Brew <span>Haven</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="review.html" class="active">Reviews</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- === HERO SECTION === -->
+    <section class="reviews-hero">
+        <div class="container">
+            <h1>Customer Reviews</h1>
+            <p>See what our customers say about their Brew Haven experience</p>
+        </div>
+    </section>
+
+    <!-- === REVIEWS CONTENT === -->
+    <section class="reviews-content">
+        <div class="container">
+            <!-- Review Form -->
+            <div class="review-form-container">
+                <h3>Share Your Experience</h3>
+                <form class="review-form">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email (Optional)</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="rating-container">
+                        <div class="rating-title">Your Rating</div>
+                        <div class="rating-stars">
+                            <input type="radio" id="star5" name="rating" value="5">
+                            <label for="star5">★</label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4">★</label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3">★</label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2">★</label>
+                            <input type="radio" id="star1" name="rating" value="1" required>
+                            <label for="star1">★</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="review">Your Review</label>
+                        <textarea id="review" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit Review</button>
+                </form>
+            </div>
+
+            <!-- Customer Reviews -->
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="reviews-grid">
+                <!-- Review 1 -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <div class="reviewer-info">
+                            <h4>Sarah Johnson</h4>
+                            <div class="review-rating">
+                                ★ ★ ★ ★ ★
+                            </div>
+                        </div>
+                        <span class="review-date">May 15, 2023</span>
+                    </div>
+                    <div class="review-content">
+                        <p>The best coffee I've ever had! The atmosphere is cozy, and the baristas are incredibly friendly. I come here every weekend for my latte fix.</p>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <div class="reviewer-info">
+                            <h4>Michael Chen</h4>
+                            <div class="review-rating">
+                                ★ ★ ★ ★ ☆
+                            </div>
+                        </div>
+                        <span class="review-date">April 28, 2023</span>
+                    </div>
+                    <div class="review-content">
+                        <p>Fantastic cold brew and delicious pastries. The only reason I'm not giving 5 stars is because it can get crowded during peak hours.</p>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <div class="reviewer-info">
+                            <h4>Emily Rodriguez</h4>
+                            <div class="review-rating">
+                                ★ ★ ★ ★ ★
+                            </div>
+                        </div>
+                        <span class="review-date">June 2, 2023</span>
+                    </div>
+                    <div class="review-content">
+                        <p>Absolutely love their caramel macchiato! The perfect balance of sweetness and coffee flavor. Highly recommend!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === FOOTER === -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Brew Haven. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- === SCRIPT FOR INTERACTIVE RATING === -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Star rating interaction
+            const stars = document.querySelectorAll('.rating-stars label');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = this.previousElementSibling.value;
+                    console.log(`Rating: ${rating} stars`);
+                });
+            });
+
+            // Form submission
+            const reviewForm = document.querySelector('.review-form');
+            reviewForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your review!');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>

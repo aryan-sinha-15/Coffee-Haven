@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - Coffee Haven</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #3e2723;
+        }
+
+        .navbar {
+            background-color: #4e342e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            color: white;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-links li a.active, .nav-links li a:hover {
+            color: #ffab91;
+        }
+
+        .header-section {
+            background: linear-gradient(to right, #d7ccc8, #ffe0b2);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about {
+            padding: 3rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .about h2 {
+            font-size: 2rem;
+            color: #6d4c41;
+            margin-bottom: 1rem;
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #4e342e;
+        }
+
+        .mission-vision {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .mission, .vision {
+            flex: 1;
+            background-color: #fff8e1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .interactive-boxes {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .interactive-box {
+            flex: 1;
+            padding: 1.5rem;
+            background: linear-gradient(145deg, #ffe0b2, #fff3e0);
+            text-align: center;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .interactive-box:hover {
+            transform: scale(1.05);
+        }
+
+        .interactive-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .interactive-box p {
+            font-size: 1rem;
+            color: #5d4037;
+        }
+
+        footer {
+            background-color: #4e342e;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: #ffab91;
+            margin: 0 0.5rem;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Coffee Haven</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="header-section">
+        <h1>Discover Our Story</h1>
+        <p>From bean to cup — we brew passion, culture, and community at Coffee Haven.</p>
+    </header>
+
+    <!-- About Section -->
+    <section class="about">
+        <h2>About Coffee Haven</h2>
+        <p>
+            At <strong>Coffee Haven</strong>, every sip tells a story. We're not just a coffee shop — we're a destination for coffee lovers. Founded with a mission to serve premium quality and create moments that matter, our space is as warm as our brew.
+        </p>
+        <p>
+            Our beans come from ethically sourced farms in Colombia, Brazil, and Ethiopia. Each roast is handcrafted by experts to unlock flavors that linger long after the cup is empty.
+        </p>
+
+        <div class="mission-vision">
+            <div class="mission">
+                <h3>Our Mission</h3>
+                <p>To deliver authentic coffee experiences while supporting ethical sourcing and community connection. We strive to make every visit comforting and memorable.</p>
+            </div>
+            <div class="vision">
+                <h3>Our Vision</h3>
+                <p>To become a global symbol of sustainable and passionate coffee culture, fostering relationships from farm to table to home.</p>
+            </div>
+        </div>
+
+        <div class="interactive-boxes">
+            <div class="interactive-box">
+                <h3>Meet the Founders</h3>
+                <p>Discover the journey of the coffee-obsessed duo who built Coffee Haven from scratch.</p>
+            </div>
+            <div class="interactive-box">
+                <h3>Visit Our Roastery</h3>
+                <p>Tour our state-of-the-art roasting facility and see how magic is brewed.</p>
+            </div>
+            <div class="interactive-box">
+                <h3>Join Our Community</h3>
+                <p>Connect with like-minded coffee lovers, join our newsletter, and attend local brew events.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Coffee Haven. All rights reserved.</p>
+        <p>
+            Follow us on
+            <a href="#">Instagram</a> |
+            <a href="#">Facebook</a> |
+            <a href="#">Twitter</a>
+        </p>
+    </footer>
+</body>
+</html>

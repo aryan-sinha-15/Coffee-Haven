@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee Haven | Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #6F4E37;
+      --secondary-color: #C4A484;
+      --accent-color: #FFB347;
+      --light-bg: #FFF8F0;
+      --dark-text: #3E2723;
+      --light-text: #FFF8F0;
+    }
+    
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--dark-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+    
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .logo span {
+      color: var(--accent-color);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav-links li {
+      margin-left: 30px;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark-text);
+      font-weight: 600;
+      transition: color 0.3s;
+      position: relative;
+    }
+    
+    .nav-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--accent-color);
+      transition: width 0.3s;
+    }
+    
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    /* Hero Section */
+    .hero {
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+      color: white;
+      padding: 0 20px;
+      position: relative;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      z-index: 2;
+    }
+    
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease-in-out;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .hero p {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      animation: fadeIn 2s ease-in-out;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      animation: fadeIn 2.5s ease-in-out;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 15px 35px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+    
+    .btn-outline:hover {
+      background-color: white;
+      color: var(--primary-color);
+    }
+    
+    /* Sections */
+    .section {
+      padding: 100px 0;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+      font-size: 2.8rem;
+      color: var(--primary-color);
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background-color: var(--accent-color);
+      margin: 20px auto 0;
+    }
+    
+    /* About Section */
+    .about-section {
+      background-color: var(--light-bg);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .about-content {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+    }
+    
+    .about-text {
+      flex: 1;
+      text-align: left;
+    }
+    
+    .about-text h3 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+    
+    .about-text p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+    
+    .about-image {
+      flex: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .about-image img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.5s;
+    }
+    
+    .about-image:hover img {
+      transform: scale(1.05);
+    }
+    
+    /* Features Section */
+    .features {
+      background-color: white;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+      padding: 40px 30px;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      font-size: 3.5rem;
+      color: var(--accent-color);
+      margin-bottom: 25px;
+    }
+    
+    .feature-card h3 {
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+    }
+    
+    .feature-card p {
+      font-size: 1.1rem;
+    }
+    
+    /* Gallery Section */
+    .gallery-section {
+      background-color: var(--light-bg);
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    
+    .gallery-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 280px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .gallery-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+    
+    .gallery-overlay i {
+      color: white;
+      font-size: 2.5rem;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      background-color: white;
+    }
+    
+    .testimonial-slider {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .testimonial {
+      background-color: var(--light-bg);
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      margin: 20px;
+    }
+    
+    .testimonial-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 20px;
+      border: 3px solid var(--accent-color);
+    }
+    
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      line-height: 1.8;
+    }
+    
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+    
+    .rating {
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      margin-top: 15px;
+    }
+    
+    /* Reservation Section */
+    .reservation-section {
+      background-color: var(--light-bg);
+    }
+    
+    .reservation-form {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .form-group {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .form-group input, 
+    .form-group select {
+      flex: 1;
+      min-width: 200px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 25px;
+      min-height: 120px;
+    }
+    
+    /* Newsletter */
+    .newsletter {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    
+    .newsletter h2 {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+    
+    .newsletter p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      font-size: 1.2rem;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .newsletter-input {
+      flex: 1;
+      padding: 18px;
+      border: none;
+      border-radius: 30px 0 0 30px;
+      font-size: 1.1rem;
+    }
+    
+    .newsletter-btn {
+      padding: 18px 35px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 0 30px 30px 0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 1.1rem;
+    }
+    
+    .newsletter-btn:hover {
+      background-color: #ffa01a;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark-text);
+      color: white;
+      padding: 70px 0 30px;
+      text-align: center;
+      position: relative;
+      width: 100%;
+    }
+    
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .footer-column {
+      flex: 1;
+      min-width: 250px;
+      margin-bottom: 40px;
+      text-align: left;
+      padding: 0 20px;
+    }
+    
+    .footer-column h3 {
+      color: var(--accent-color);
+      margin-bottom: 25px;
+      font-size: 1.5rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-links li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer-links i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 1.1rem;
+    }
+    
+    .footer-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 20px;
+      margin-top: 25px;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.8rem;
+      transition: color 0.3s;
+    }
+    
+    .social-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    .copyright {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      font-size: 1rem;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      
+      .hero p {
+        font-size: 1.5rem;
+      }
+      
+      .about-content {
+        flex-direction: column;
+      }
+      
+      .about-image {
+        margin-top: 40px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 20px;
+      }
+      
+      .nav-links {
+        margin-top: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .nav-links li {
+        margin: 10px;
+      }
+      
+      .hero {
+        height: 80vh;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1.3rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .section {
+        padding: 70px 0;
+      }
+      
+      .section-title {
+        font-size: 2.2rem;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+      }
+      
+      .newsletter-input {
+        border-radius: 30px;
+        margin-bottom: 10px;
+      }
+      
+      .newsletter-btn {
+        border-radius: 30px;
+      }
+      
+      .form-group input, 
+      .form-group select {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .feature-card {
+        padding: 30px 20px;
+      }
+      
+      .testimonial {
+        padding: 30px 20px;
+      }
+      
+      .reservation-form {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo"><span>Coffee</span> Haven</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to <span style="color: var(--accent-color);">Coffee Haven</span></h1>
+      <p>Where every sip tells a story ☕</p>
+      <div class="hero-buttons">
+        <a href="menu.html" class="btn">Explore Our Menu</a>
+        <a href="#reservation" class="btn btn-outline">Book a Table</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section about-section">
+    <div class="container">
+      <h2 class="section-title">Our Story</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <h3>More Than Just Coffee</h3>
+          <p>Founded in 2010, Coffee Haven began as a small dream to create a space where community and quality coffee intersect. Today, we're proud to serve ethically sourced, artisan-crafted beverages in a warm, welcoming environment.</p>
+          <p>Our beans are directly traded from sustainable farms across the world, ensuring fair wages for farmers and exceptional quality for you. Each cup is carefully prepared by our skilled baristas who are passionate about their craft.</p>
+          <a href="about.html" class="btn" style="margin-top: 20px;">Learn More</a>
+        </div>
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1551030173-122aabc4489c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Barista making coffee">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section features">
+    <div class="container">
+      <h2 class="section-title">Why Choose Us</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <h3>Ethically Sourced</h3>
+          <p>We partner directly with farmers to ensure fair trade and sustainable practices from bean to cup.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-award"></i>
+          </div>
+          <h3>Expert Baristas</h3>
+          <p>Our certified baristas undergo rigorous training to perfect every espresso shot and milk texture.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <h3>Community Focused</h3>
+          <p>We host weekly events, support local artists, and create spaces for meaningful connections.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="section gallery-section">
+    <div class="container">
+      <h2 class="section-title">Our Coffee Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Espresso">
+          <div class="gallery-overlay">
+            <i class="fas fa-search-plus"></i>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Latte Art">
+          <div class="gallery-overlay">
+            <i class="fas fa-search-plus"></i>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cappuccino">
+          <div class="gallery-overlay">
+            <i class="fas fa-search-plus"></i>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Iced Coffee">
+          <div class="gallery-overlay">
+            <i class="fas fa-search-plus"></i>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coffee Beans">
+          <div class="gallery-overlay">
+            <i class="fas fa-search-plus"></i>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coffee Shop Interior">
+          <div class="gallery-overlay">
+            <i class="fas fa-search-plus"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="section testimonials">
+    <div class="container">
+      <h2 class="section-title">What Our Customers Say</h2>
+      <div class="testimonial-slider">
+        <div class="testimonial">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Customer" class="testimonial-avatar">
+          <p class="testimonial-text">"The best cappuccino in town! And the staff is incredibly friendly. I come here every weekend without fail. The atmosphere is perfect for both work and relaxation."</p>
+          <p class="testimonial-author">- Priya M.</p>
+          <div class="rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reservation Section -->
+  <section class="section reservation-section" id="reservation">
+    <div class="container">
+      <h2 class="section-title">Book a Table</h2>
+      <div class="reservation-form">
+        <form>
+          <div class="form-group">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+          </div>
+          <div class="form-group">
+            <input type="date" placeholder="Date" required>
+            <input type="time" placeholder="Time" required>
+            <select required>
+              <option value="" disabled selected>Number of Guests</option>
+              <option value="1">1 Person</option>
+              <option value="2">2 People</option>
+              <option value="3">3 People</option>
+              <option value="4">4 People</option>
+              <option value="5+">5+ People</option>
+            </select>
+          </div>
+          <textarea placeholder="Special Requests (Optional)"></textarea>
+          <button type="submit" class="btn">Reserve Now</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter">
+    <div class="container">
+      <h2>Join Our Coffee Club</h2>
+      <p>Subscribe to our newsletter and receive exclusive offers, coffee tips, and updates about our new products and events.</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Your email address" class="newsletter-input" required>
+        <button type="submit" class="newsletter-btn">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Coffee Haven</h3>
+        <p>Where every sip tells a story. Join us for exceptional coffee, warm hospitality, and memorable moments.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Contact Info</h3>
+        <ul class="footer-links">
+          <li><i class="fas fa-map-marker-alt"></i> 123 Brew Street, Coffee District</li>
+          <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+          <li><i class="fas fa-envelope"></i> hello@coffeehaven.com</li>
+          <li><i class="fas fa-clock"></i> Open daily: 7AM - 9PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Coffee Haven. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple interactive elements
+    document.addEventListener('DOMContentLoaded', function() {
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+      
+      // Gallery image click handler (would normally open a lightbox)
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', function() {
+          alert('In a full implementation, this would open a lightbox with the larger image!');
+        });
+      });
+      
+      // Form submission handlers
+      document.querySelector('.reservation-form form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you for your reservation! We will confirm shortly.');
+        this.reset();
+      });
+      
+      document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you for subscribing to our newsletter!');
+        this.reset();
+      });
+    });
+  </script>
+</body>
+</html>

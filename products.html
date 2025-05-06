@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products - Coffee Haven</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* === BASE STYLES === */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #fffaf5;
+      color: #3e2723;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* === NAVBAR === */
+    .navbar {
+      background: #4e342e;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-links li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links li a:hover {
+      color: #ffcc80;
+    }
+
+    .nav-links li a.active {
+      color: #ffcc80;
+      border-bottom: 2px solid #ffcc80;
+    }
+
+    /* === CART ICON === */
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+      margin-left: 1rem;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ffcc80;
+      color: #3e2723;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    /* === HEADER SECTION === */
+    .header-section {
+      background: linear-gradient(to right, #6d4c41, #8d6e63);
+      color: white;
+      text-align: center;
+      padding: 6rem 2rem 3rem;
+      margin-top: 60px;
+    }
+
+    .header-section h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-section p {
+      font-size: 1.1rem;
+      color: #ffe0b2;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* === PRODUCTS SECTION === */
+    .products {
+      padding: 3rem 0;
+    }
+
+    .products h2 {
+      font-size: 2rem;
+      color: #4e342e;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+
+    /* === PRODUCT CARD - FIXED IMAGE LAYOUT === */
+    .product-card {
+      background-color: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .product-image-container {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-image {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-title {
+      font-size: 1.3rem;
+      color: #3e2723;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-description {
+      color: #5d4037;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .product-price {
+      font-weight: bold;
+      color: #d84315;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .add-to-cart {
+      background: #4e342e;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+      width: 100%;
+    }
+
+    .add-to-cart:hover {
+      background: #6d4c41;
+    }
+
+    /* === CART SIDEBAR === */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 350px;
+      height: 100vh;
+      background: #fff;
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      z-index: 1001;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .cart-sidebar.active {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .cart-items {
+      margin-bottom: 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 12px;
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .cart-item-price {
+      color: #d84315;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .cart-item-remove {
+      color: #b71c1c;
+      background: none;
+      border: none;
+      cursor: pointer;
+      align-self: flex-start;
+    }
+
+    .cart-total {
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: right;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: #4e342e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    .checkout-btn:hover {
+      background: #6d4c41;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    /* === FOOTER === */
+    .footer {
+      background-color: #4e342e;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 4rem;
+    }
+
+    .footer a {
+      color: #ffcc80;
+      text-decoration: none;
+      margin: 0 0.3rem;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* === RESPONSIVE DESIGN === */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+      }
+      
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      }
+      
+      .cart-sidebar {
+        width: 300px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-section {
+        padding: 5rem 1rem 2rem;
+      }
+      
+      .header-section h1 {
+        font-size: 2rem;
+      }
+      
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .cart-sidebar {
+        width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar with Cart Icon -->
+  <nav class="navbar">
+    <div class="logo">Coffee Haven</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="products.html" class="active">Products</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li class="cart-icon" id="cartIcon">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Cart Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="close-cart" id="closeCart">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items will be added here dynamically -->
+      <p style="text-align: center; color: #666;">Your cart is empty</p>
+    </div>
+    <div class="cart-total" id="cartTotal">
+      Total: ₹0
+    </div>
+    <button class="checkout-btn">Proceed to Checkout</button>
+  </div>
+
+  <!-- Header -->
+  <header class="header-section">
+    <div class="container">
+      <h1>Our Premium Products</h1>
+      <p>Experience the best from Coffee Haven – freshly sourced, expertly crafted.</p>
+    </div>
+  </header>
+
+  <!-- Products Section -->
+  <section class="products">
+    <div class="container">
+      <h2>Featured Coffee Products</h2>
+      <div class="product-grid">
+        <!-- Product 1 -->
+        <div class="product-card">
+          <div class="product-image-container">
+            <img src="assets/images/beans1.jpg" alt="Arabica Beans" class="product-image">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Arabica Beans</h3>
+            <p class="product-description">High-quality Arabica beans sourced from Colombian farms. Rich flavor and low acidity.</p>
+            <div class="product-price">₹499 / 500g</div>
+            <button class="add-to-cart" 
+                    data-id="1" 
+                    data-name="Arabica Beans" 
+                    data-price="499" 
+                    data-image="assets/images/beans1.jpg">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+          <div class="product-image-container">
+            <img src="assets/images/mug1.jpg" alt="Branded Mug" class="product-image">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Coffee Haven Mug</h3>
+            <p class="product-description">Stylish ceramic mug with our official logo. Microwave-safe and dishwasher-friendly.</p>
+            <div class="product-price">₹349</div>
+            <button class="add-to-cart" 
+                    data-id="2" 
+                    data-name="Coffee Haven Mug" 
+                    data-price="349" 
+                    data-image="assets/images/mug1.jpg">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+          <div class="product-image-container">
+            <img src="assets/images/ground1.jpg" alt="Ground Coffee" class="product-image">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Signature Ground Coffee</h3>
+            <p class="product-description">Perfectly roasted and ground blend for a consistent and bold flavor every cup.</p>
+            <div class="product-price">₹399 / 250g</div>
+            <button class="add-to-cart" 
+                    data-id="3" 
+                    data-name="Signature Ground Coffee" 
+                    data-price="399" 
+                    data-image="assets/images/ground1.jpg">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card">
+          <div class="product-image-container">
+            <img src="assets/images/filter1.jpg" alt="Reusable Filter" class="product-image">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Reusable Coffee Filter</h3>
+            <p class="product-description">Eco-friendly stainless steel filter for your daily brewing needs. Zero waste, full taste.</p>
+            <div class="product-price">₹299</div>
+            <button class="add-to-cart" 
+                    data-id="4" 
+                    data-name="Reusable Coffee Filter" 
+                    data-price="299" 
+                    data-image="assets/images/filter1.jpg">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product-card">
+          <div class="product-image-container">
+            <img src="assets/images/giftbox.jpg" alt="Gift Box" class="product-image">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Coffee Gift Box</h3>
+            <p class="product-description">A premium gift box including beans, mug, filter, and a surprise treat.</p>
+            <div class="product-price">₹999</div>
+            <button class="add-to-cart" 
+                    data-id="5" 
+                    data-name="Coffee Gift Box" 
+                    data-price="999" 
+                    data-image="assets/images/giftbox.jpg">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Coffee Haven. All rights reserved.</p>
+      <p>
+        Follow us on
+        <a href="#">Instagram</a> |
+        <a href="#">Facebook</a> |
+        <a href="#">Twitter</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Cart elements
+      const cartIcon = document.getElementById('cartIcon');
+      const cartSidebar = document.getElementById('cartSidebar');
+      const closeCart = document.getElementById('closeCart');
+      const overlay = document.getElementById('overlay');
+      const cartItemsContainer = document.getElementById('cartItems');
+      const cartTotal = document.getElementById('cartTotal');
+      const addToCartButtons = document.querySelectorAll('.add-to-cart');
+      const checkoutBtn = document.querySelector('.checkout-btn');
+
+      // Cart data
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let total = 0;
+
+      // Toggle cart visibility
+      cartIcon.addEventListener('click', toggleCart);
+      closeCart.addEventListener('click', toggleCart);
+      overlay.addEventListener('click', toggleCart);
+
+      function toggleCart() {
+        cartSidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+      }
+
+      // Update cart count
+      function updateCartCount() {
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.querySelector('.cart-count').textContent = count;
+      }
+
+      // Update cart total
+      function updateCartTotal() {
+        total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        cartTotal.textContent = `Total: ₹${total}`;
+      }
+
+      // Render cart items
+      function renderCartItems() {
+        cartItemsContainer.innerHTML = '';
+        
+        if (cart.length === 0) {
+          cartItemsContainer.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty</p>';
+          return;
+        }
+
+        cart.forEach(item => {
+          const cartItemElement = document.createElement('div');
+          cartItemElement.className = 'cart-item';
+          cartItemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+            <div class="cart-item-details">
+              <div class="cart-item-title">${item.name}</div>
+              <div class="cart-item-price">₹${item.price} x ${item.quantity}</div>
+            </div>
+            <button class="cart-item-remove" data-id="${item.id}">&times;</button>
+          `;
+          cartItemsContainer.appendChild(cartItemElement);
+        });
+
+        // Add event listeners to remove buttons
+        document.querySelectorAll('.cart-item-remove').forEach(button => {
+          button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            removeFromCart(id);
+          });
+        });
+      }
+
+      // Add to cart function
+      function addToCart(id, name, price, image) {
+        const existingItem = cart.find(item => item.id === id);
+        
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push({
+            id,
+            name,
+            price: parseInt(price),
+            image,
+            quantity: 1
+          });
+        }
+
+        saveCart();
+        updateCartCount();
+        renderCartItems();
+        updateCartTotal();
+        
+        // Show success message
+        showToast(`${name} added to cart`);
+      }
+
+      // Remove from cart function
+      function removeFromCart(id) {
+        cart = cart.filter(item => item.id !== id);
+        saveCart();
+        updateCartCount();
+        renderCartItems();
+        updateCartTotal();
+      }
+
+      // Save cart to localStorage
+      function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+
+      // Show toast notification
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+          toast.classList.add('show');
+        }, 10);
+        
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 3000);
+      }
+
+      // Checkout button
+      checkoutBtn.addEventListener('click', function() {
+        if (cart.length === 0) {
+          showToast('Your cart is empty');
+          return;
+        }
+        alert(`Proceeding to checkout. Total: ₹${total}`);
+        // In a real implementation, you would redirect to checkout page
+      });
+
+      // Initialize cart
+      updateCartCount();
+      renderCartItems();
+      updateCartTotal();
+
+      // Add event listeners to all "Add to Cart" buttons
+      addToCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const id = this.getAttribute('data-id');
+          const name = this.getAttribute('data-name');
+          const price = this.getAttribute('data-price');
+          const image = this.getAttribute('data-image');
+          addToCart(id, name, price, image);
+          
+          // Show cart sidebar when adding an item
+          if (!cartSidebar.classList.contains('active')) {
+            toggleCart();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
