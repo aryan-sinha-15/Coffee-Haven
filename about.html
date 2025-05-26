@@ -1,213 +1,589 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About - Coffee Haven</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-            color: #3e2723;
-        }
-
-        .navbar {
-            background-color: #4e342e;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            color: white;
-        }
-
-        .navbar .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 1rem;
-        }
-
-        .nav-links li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .nav-links li a.active, .nav-links li a:hover {
-            color: #ffab91;
-        }
-
-        .header-section {
-            background: linear-gradient(to right, #d7ccc8, #ffe0b2);
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .header-section h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .about {
-            padding: 3rem 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .about h2 {
-            font-size: 2rem;
-            color: #6d4c41;
-            margin-bottom: 1rem;
-        }
-
-        .about p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            color: #4e342e;
-        }
-
-        .mission-vision {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .mission, .vision {
-            flex: 1;
-            background-color: #fff8e1;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .interactive-boxes {
-            display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .interactive-box {
-            flex: 1;
-            padding: 1.5rem;
-            background: linear-gradient(145deg, #ffe0b2, #fff3e0);
-            text-align: center;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        .interactive-box:hover {
-            transform: scale(1.05);
-        }
-
-        .interactive-box h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .interactive-box p {
-            font-size: 1rem;
-            color: #5d4037;
-        }
-
-        footer {
-            background-color: #4e342e;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            margin-top: 3rem;
-        }
-
-        footer a {
-            color: #ffab91;
-            margin: 0 0.5rem;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee Haven | About Us</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #6F4E37;
+      --secondary-color: #C4A484;
+      --accent-color: #FFB347;
+      --light-bg: #FFF8F0;
+      --dark-text: #3E2723;
+      --light-text: #FFF8F0;
+    }
+    
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--dark-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+    
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .logo span {
+      color: var(--accent-color);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav-links li {
+      margin-left: 30px;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark-text);
+      font-weight: 600;
+      transition: color 0.3s;
+      position: relative;
+    }
+    
+    .nav-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    .nav-links a.active {
+      color: var(--accent-color);
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--accent-color);
+      transition: width 0.3s;
+    }
+    
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+    
+    /* Page Header */
+    .page-header {
+      height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+      color: white;
+      padding: 0 20px;
+      position: relative;
+    }
+    
+    .page-header-content {
+      max-width: 800px;
+      z-index: 2;
+    }
+    
+    .page-header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease-in-out;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .page-header p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      animation: fadeIn 2s ease-in-out;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    /* About Content */
+    .about-section {
+      padding: 100px 0;
+      background-color: var(--light-bg);
+    }
+    
+    .about-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .about-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+    
+    .about-image {
+      width: 100%;
+      border-radius: 15px;
+      margin: 40px 0;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    /* Mission/Vision */
+    .mission-vision {
+      display: flex;
+      gap: 30px;
+      margin: 50px 0;
+    }
+    
+    .mission, .vision {
+      flex: 1;
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    
+    .mission h3, .vision h3 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .mission h3::after, .vision h3::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background-color: var(--accent-color);
+      margin-top: 15px;
+    }
+    
+    /* Interactive Boxes */
+    .interactive-boxes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 50px 0;
+    }
+    
+    .interactive-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    .interactive-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    
+    .interactive-box h3 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    
+    .interactive-box i {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+    
+    /* Newsletter */
+    .newsletter {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    
+    .newsletter h2 {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+    
+    .newsletter p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      font-size: 1.2rem;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .newsletter-input {
+      flex: 1;
+      padding: 18px;
+      border: none;
+      border-radius: 30px 0 0 30px;
+      font-size: 1.1rem;
+    }
+    
+    .newsletter-btn {
+      padding: 18px 35px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 0 30px 30px 0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 1.1rem;
+    }
+    
+    .newsletter-btn:hover {
+      background-color: #ffa01a;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark-text);
+      color: white;
+      padding: 70px 0 30px;
+      text-align: center;
+      position: relative;
+      width: 100%;
+    }
+    
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .footer-column {
+      flex: 1;
+      min-width: 250px;
+      margin-bottom: 40px;
+      text-align: left;
+      padding: 0 20px;
+    }
+    
+    .footer-column h3 {
+      color: var(--accent-color);
+      margin-bottom: 25px;
+      font-size: 1.5rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-links li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer-links i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 1.1rem;
+    }
+    
+    .footer-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 20px;
+      margin-top: 25px;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.8rem;
+      transition: color 0.3s;
+    }
+    
+    .social-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    .copyright {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      font-size: 1rem;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .page-header h1 {
+        font-size: 3rem;
+      }
+      
+      .page-header p {
+        font-size: 1.3rem;
+      }
+      
+      .mission-vision {
+        flex-direction: column;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 20px;
+      }
+      
+      .nav-links {
+        margin-top: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .nav-links li {
+        margin: 10px;
+      }
+      
+      .page-header {
+        height: 40vh;
+      }
+      
+      .page-header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .page-header p {
+        font-size: 1.1rem;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+      }
+      
+      .newsletter-input {
+        border-radius: 30px;
+        margin-bottom: 10px;
+      }
+      
+      .newsletter-btn {
+        border-radius: 30px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .page-header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">Coffee Haven</div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="products.html">Products</a></li>
-            <li><a href="reviews.html">Reviews</a></li>
-            <li><a href="about.html" class="active">About</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo"><span>Coffee</span> Haven</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
-    <!-- Header Section -->
-    <header class="header-section">
-        <h1>Discover Our Story</h1>
-        <p>From bean to cup — we brew passion, culture, and community at Coffee Haven.</p>
-    </header>
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="page-header-content">
+      <h1>Discover Our Story</h1>
+      <p>From bean to cup — we brew passion, culture, and community at Coffee Haven.</p>
+    </div>
+  </section>
 
-    <!-- About Section -->
-    <section class="about">
-        <h2>About Coffee Haven</h2>
-        <p>
-            At <strong>Coffee Haven</strong>, every sip tells a story. We're not just a coffee shop — we're a destination for coffee lovers. Founded with a mission to serve premium quality and create moments that matter, our space is as warm as our brew.
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="container">
+      <div class="about-content">
+        <h2 class="section-title">About Coffee Haven</h2>
+        
+        <p class="about-text">
+          At <strong>Coffee Haven</strong>, every sip tells a story. We're not just a coffee shop — we're a destination for coffee lovers. Founded with a mission to serve premium quality and create moments that matter, our space is as warm as our brew.
         </p>
-        <p>
-            Our beans come from ethically sourced farms in Colombia, Brazil, and Ethiopia. Each roast is handcrafted by experts to unlock flavors that linger long after the cup is empty.
+        
+        <p class="about-text">
+          Our beans come from ethically sourced farms in Colombia, Brazil, and Ethiopia. Each roast is handcrafted by experts to unlock flavors that linger long after the cup is empty.
         </p>
-
+        
+        <img src="https://images.unsplash.com/photo-1551030173-122aabc4489c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coffee Haven interior" class="about-image">
+        
         <div class="mission-vision">
-            <div class="mission">
-                <h3>Our Mission</h3>
-                <p>To deliver authentic coffee experiences while supporting ethical sourcing and community connection. We strive to make every visit comforting and memorable.</p>
-            </div>
-            <div class="vision">
-                <h3>Our Vision</h3>
-                <p>To become a global symbol of sustainable and passionate coffee culture, fostering relationships from farm to table to home.</p>
-            </div>
+          <div class="mission">
+            <h3>Our Mission</h3>
+            <p>To deliver authentic coffee experiences while supporting ethical sourcing and community connection. We strive to make every visit comforting and memorable.</p>
+          </div>
+          <div class="vision">
+            <h3>Our Vision</h3>
+            <p>To become a global symbol of sustainable and passionate coffee culture, fostering relationships from farm to table to home.</p>
+          </div>
         </div>
-
+        
+        <h2 class="section-title">Explore More</h2>
+        
         <div class="interactive-boxes">
-            <div class="interactive-box">
-                <h3>Meet the Founders</h3>
-                <p>Discover the journey of the coffee-obsessed duo who built Coffee Haven from scratch.</p>
-            </div>
-            <div class="interactive-box">
-                <h3>Visit Our Roastery</h3>
-                <p>Tour our state-of-the-art roasting facility and see how magic is brewed.</p>
-            </div>
-            <div class="interactive-box">
-                <h3>Join Our Community</h3>
-                <p>Connect with like-minded coffee lovers, join our newsletter, and attend local brew events.</p>
-            </div>
+          <div class="interactive-box">
+            <i class="fas fa-users"></i>
+            <h3>Meet the Founders</h3>
+            <p>Discover the journey of the coffee-obsessed duo who built Coffee Haven from scratch.</p>
+          </div>
+          <div class="interactive-box">
+            <i class="fas fa-industry"></i>
+            <h3>Visit Our Roastery</h3>
+            <p>Tour our state-of-the-art roasting facility and see how magic is brewed.</p>
+          </div>
+          <div class="interactive-box">
+            <i class="fas fa-handshake"></i>
+            <h3>Join Our Community</h3>
+            <p>Connect with like-minded coffee lovers, join our newsletter, and attend local brew events.</p>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Coffee Haven. All rights reserved.</p>
-        <p>
-            Follow us on
-            <a href="#">Instagram</a> |
-            <a href="#">Facebook</a> |
-            <a href="#">Twitter</a>
-        </p>
-    </footer>
+  <!-- Newsletter Section -->
+  <section class="newsletter">
+    <div class="container">
+      <h2>Join Our Coffee Club</h2>
+      <p>Subscribe to our newsletter and receive exclusive offers, coffee tips, and updates about our new products and events.</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Your email address" class="newsletter-input" required>
+        <button type="submit" class="newsletter-btn">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Coffee Haven</h3>
+        <p>Where every sip tells a story. Join us for exceptional coffee, warm hospitality, and memorable moments.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Contact Info</h3>
+        <ul class="footer-links">
+          <li><i class="fas fa-map-marker-alt"></i> 123 Brew Street, Coffee District</li>
+          <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+          <li><i class="fas fa-envelope"></i> hello@coffeehaven.com</li>
+          <li><i class="fas fa-clock"></i> Open daily: 7AM - 9PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Coffee Haven. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple interactive elements
+    document.addEventListener('DOMContentLoaded', function() {
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+      
+      // Form submission handler
+      document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you for subscribing to our newsletter!');
+        this.reset();
+      });
+      
+      // Interactive boxes click handlers
+      document.querySelectorAll('.interactive-box').forEach(box => {
+        box.addEventListener('click', function() {
+          // You can add specific actions for each box here
+          alert('This would navigate to the relevant page in a full implementation');
+        });
+      });
+    });
+  </script>
 </body>
 </html>

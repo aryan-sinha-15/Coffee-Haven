@@ -1,82 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Products - Coffee Haven</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee Haven | Our Products</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* === BASE STYLES === */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      background-color: #fffaf5;
-      color: #3e2723;
+    :root {
+      --primary-color: #6F4E37;
+      --secondary-color: #C4A484;
+      --accent-color: #FFB347;
+      --light-bg: #FFF8F0;
+      --dark-text: #3E2723;
+      --light-text: #FFF8F0;
     }
-
+    
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--dark-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+    }
+    
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
+      flex: 1;
     }
-
-    /* === NAVBAR === */
+    
+    /* Navbar */
     .navbar {
-      background: #4e342e;
-      color: #fff;
       display: flex;
       justify-content: space-between;
-      padding: 1rem 2rem;
       align-items: center;
-      position: fixed;
-      width: 100%;
+      padding: 20px 40px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-
-    .navbar .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #fff;
+    
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-color);
     }
-
+    
+    .logo span {
+      color: var(--accent-color);
+    }
+    
     .nav-links {
-      list-style: none;
       display: flex;
-      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
       align-items: center;
     }
-
-    .nav-links li a {
-      color: #fff;
+    
+    .nav-links li {
+      margin-left: 30px;
+    }
+    
+    .nav-links a {
       text-decoration: none;
-      font-weight: 500;
+      color: var(--dark-text);
+      font-weight: 600;
       transition: color 0.3s;
+      position: relative;
     }
-
-    .nav-links li a:hover {
-      color: #ffcc80;
+    
+    .nav-links a:hover {
+      color: var(--accent-color);
     }
-
-    .nav-links li a.active {
-      color: #ffcc80;
-      border-bottom: 2px solid #ffcc80;
+    
+    .nav-links a.active {
+      color: var(--accent-color);
     }
-
-    /* === CART ICON === */
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--accent-color);
+      transition: width 0.3s;
+    }
+    
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+    
+    /* Cart Icon */
     .cart-icon {
       position: relative;
       cursor: pointer;
-      margin-left: 1rem;
+      margin-left: 15px;
     }
-
+    
     .cart-count {
       position: absolute;
       top: -8px;
       right: -8px;
-      background: #ffcc80;
-      color: #3e2723;
+      background: var(--accent-color);
+      color: var(--dark-text);
       border-radius: 50%;
       width: 20px;
       height: 20px;
@@ -86,229 +128,249 @@
       font-size: 12px;
       font-weight: bold;
     }
-
-    /* === HEADER SECTION === */
-    .header-section {
-      background: linear-gradient(to right, #6d4c41, #8d6e63);
-      color: white;
-      text-align: center;
-      padding: 6rem 2rem 3rem;
-      margin-top: 60px;
-    }
-
-    .header-section h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .header-section p {
-      font-size: 1.1rem;
-      color: #ffe0b2;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* === PRODUCTS SECTION === */
-    .products {
-      padding: 3rem 0;
-    }
-
-    .products h2 {
-      font-size: 2rem;
-      color: #4e342e;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2rem;
-      padding: 0 1rem;
-    }
-
-    /* === PRODUCT CARD - FIXED IMAGE LAYOUT === */
-    .product-card {
-      background-color: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Page Header */
+    .page-header {
+      height: 50vh;
       display: flex;
       flex-direction: column;
-      height: 100%;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+      color: white;
+      padding: 0 20px;
+      position: relative;
     }
-
+    
+    .page-header-content {
+      max-width: 800px;
+      z-index: 2;
+    }
+    
+    .page-header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease-in-out;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .page-header p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      animation: fadeIn 2s ease-in-out;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    /* Products Section */
+    .products-section {
+      padding: 100px 0;
+      background-color: white;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+      font-size: 2.8rem;
+      color: var(--primary-color);
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background-color: var(--accent-color);
+      margin: 20px auto 0;
+    }
+    
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .product-card {
+      background-color: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
     .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
     }
-
+    
     .product-image-container {
       width: 100%;
-      height: 200px;
+      height: 250px;
       overflow: hidden;
     }
-
+    
     .product-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.5s;
     }
-
+    
     .product-card:hover .product-image {
       transform: scale(1.05);
     }
-
+    
     .product-info {
-      padding: 1.5rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+      padding: 25px;
     }
-
+    
     .product-title {
-      font-size: 1.3rem;
-      color: #3e2723;
-      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
     }
-
+    
     .product-description {
-      color: #5d4037;
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-      flex: 1;
+      color: var(--dark-text);
+      margin-bottom: 15px;
+      line-height: 1.6;
     }
-
+    
     .product-price {
       font-weight: bold;
-      color: #d84315;
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
+      color: var(--accent-color);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
     }
-
+    
     .add-to-cart {
-      background: #4e342e;
+      display: inline-block;
+      width: 100%;
+      padding: 15px;
+      background-color: var(--primary-color);
       color: white;
       border: none;
-      padding: 0.75rem;
-      border-radius: 6px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
       cursor: pointer;
-      font-weight: 500;
-      transition: background 0.3s;
-      width: 100%;
+      transition: all 0.3s;
+      text-align: center;
     }
-
+    
     .add-to-cart:hover {
-      background: #6d4c41;
+      background-color: var(--accent-color);
     }
-
-    /* === CART SIDEBAR === */
+    
+    /* Cart Sidebar */
     .cart-sidebar {
       position: fixed;
       top: 0;
       right: -400px;
       width: 350px;
       height: 100vh;
-      background: #fff;
+      background: white;
       box-shadow: -5px 0 15px rgba(0,0,0,0.1);
       transition: right 0.3s ease;
       z-index: 1001;
-      padding: 20px;
+      padding: 30px;
       overflow-y: auto;
     }
-
+    
     .cart-sidebar.active {
       right: 0;
     }
-
+    
     .cart-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       padding-bottom: 15px;
       border-bottom: 1px solid #eee;
     }
-
+    
     .close-cart {
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       cursor: pointer;
-      color: #666;
+      color: var(--dark-text);
     }
-
+    
     .cart-items {
       margin-bottom: 20px;
     }
-
+    
     .cart-item {
       display: flex;
-      margin-bottom: 15px;
-      padding-bottom: 15px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
       border-bottom: 1px solid #f5f5f5;
     }
-
+    
     .cart-item-image {
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       object-fit: cover;
-      border-radius: 8px;
-      margin-right: 12px;
+      border-radius: 10px;
+      margin-right: 15px;
     }
-
+    
     .cart-item-details {
       flex: 1;
     }
-
+    
     .cart-item-title {
       font-weight: 600;
       margin-bottom: 5px;
+      color: var(--primary-color);
     }
-
+    
     .cart-item-price {
-      color: #d84315;
+      color: var(--accent-color);
       font-weight: bold;
-      font-size: 0.9rem;
     }
-
+    
     .cart-item-remove {
       color: #b71c1c;
       background: none;
       border: none;
       cursor: pointer;
       align-self: flex-start;
+      font-size: 1.2rem;
     }
-
+    
     .cart-total {
       font-weight: bold;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       text-align: right;
       margin-top: 20px;
       padding-top: 15px;
       border-top: 1px solid #eee;
+      color: var(--primary-color);
     }
-
+    
     .checkout-btn {
       display: block;
       width: 100%;
-      padding: 12px;
-      background: #4e342e;
+      padding: 15px;
+      background-color: var(--primary-color);
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 30px;
       font-weight: 600;
       cursor: pointer;
-      margin-top: 20px;
-      transition: background 0.3s;
+      margin-top: 25px;
+      transition: background-color 0.3s;
+      font-size: 1.1rem;
     }
-
+    
     .checkout-btn:hover {
-      background: #6d4c41;
+      background-color: var(--accent-color);
     }
-
+    
     .overlay {
       position: fixed;
       top: 0;
@@ -319,72 +381,248 @@
       z-index: 1000;
       display: none;
     }
-
+    
     .overlay.active {
       display: block;
     }
-
-    /* === FOOTER === */
-    .footer {
-      background-color: #4e342e;
+    
+    /* Toast Notification */
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--primary-color);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .toast-notification.show {
+      opacity: 1;
+    }
+    
+    /* Newsletter */
+    .newsletter {
+      background-color: var(--primary-color);
       color: white;
       text-align: center;
-      padding: 2rem 1rem;
-      margin-top: 4rem;
+      padding: 80px 20px;
     }
-
-    .footer a {
-      color: #ffcc80;
+    
+    .newsletter h2 {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+    
+    .newsletter p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      font-size: 1.2rem;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .newsletter-input {
+      flex: 1;
+      padding: 18px;
+      border: none;
+      border-radius: 30px 0 0 30px;
+      font-size: 1.1rem;
+    }
+    
+    .newsletter-btn {
+      padding: 18px 35px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 0 30px 30px 0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 1.1rem;
+    }
+    
+    .newsletter-btn:hover {
+      background-color: #ffa01a;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark-text);
+      color: white;
+      padding: 70px 0 30px;
+      text-align: center;
+      position: relative;
+      width: 100%;
+    }
+    
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .footer-column {
+      flex: 1;
+      min-width: 250px;
+      margin-bottom: 40px;
+      text-align: left;
+      padding: 0 20px;
+    }
+    
+    .footer-column h3 {
+      color: var(--accent-color);
+      margin-bottom: 25px;
+      font-size: 1.5rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-links li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer-links i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    
+    .footer-links a {
+      color: white;
       text-decoration: none;
-      margin: 0 0.3rem;
+      transition: color 0.3s;
+      font-size: 1.1rem;
     }
-
-    .footer a:hover {
-      text-decoration: underline;
+    
+    .footer-links a:hover {
+      color: var(--accent-color);
     }
-
-    /* === RESPONSIVE DESIGN === */
+    
+    .social-links {
+      display: flex;
+      gap: 20px;
+      margin-top: 25px;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.8rem;
+      transition: color 0.3s;
+    }
+    
+    .social-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    .copyright {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      font-size: 1rem;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .page-header h1 {
+        font-size: 3rem;
+      }
+      
+      .page-header p {
+        font-size: 1.3rem;
+      }
+    }
+    
     @media (max-width: 768px) {
       .navbar {
-        padding: 1rem;
+        flex-direction: column;
+        padding: 20px;
       }
       
       .nav-links {
-        gap: 1rem;
+        margin-top: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
       }
       
-      .product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      .nav-links li {
+        margin: 10px;
+      }
+      
+      .page-header {
+        height: 40vh;
+      }
+      
+      .page-header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .page-header p {
+        font-size: 1.1rem;
       }
       
       .cart-sidebar {
         width: 300px;
       }
-    }
-
-    @media (max-width: 480px) {
-      .header-section {
-        padding: 5rem 1rem 2rem;
+      
+      .newsletter-form {
+        flex-direction: column;
       }
       
-      .header-section h1 {
+      .newsletter-input {
+        border-radius: 30px;
+        margin-bottom: 10px;
+      }
+      
+      .newsletter-btn {
+        border-radius: 30px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .page-header h1 {
         font-size: 2rem;
       }
       
-      .product-grid {
-        grid-template-columns: 1fr;
+      .section-title {
+        font-size: 2rem;
       }
       
       .cart-sidebar {
         width: 280px;
+        padding: 20px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Navbar with Cart Icon -->
+  <!-- Navbar -->
   <nav class="navbar">
-    <div class="logo">Coffee Haven</div>
+    <div class="logo"><span>Coffee</span> Haven</div>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="menu.html">Menu</a></li>
@@ -419,18 +657,18 @@
     <button class="checkout-btn">Proceed to Checkout</button>
   </div>
 
-  <!-- Header -->
-  <header class="header-section">
-    <div class="container">
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="page-header-content">
       <h1>Our Premium Products</h1>
       <p>Experience the best from Coffee Haven – freshly sourced, expertly crafted.</p>
     </div>
-  </header>
+  </section>
 
   <!-- Products Section -->
-  <section class="products">
+  <section class="products-section">
     <div class="container">
-      <h2>Featured Coffee Products</h2>
+      <h2 class="section-title">Featured Coffee Products</h2>
       <div class="product-grid">
         <!-- Product 1 -->
         <div class="product-card">
@@ -530,20 +768,56 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer">
+  <!-- Newsletter Section -->
+  <section class="newsletter">
     <div class="container">
+      <h2>Join Our Coffee Club</h2>
+      <p>Subscribe to our newsletter and receive exclusive offers, coffee tips, and updates about our new products and events.</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Your email address" class="newsletter-input" required>
+        <button type="submit" class="newsletter-btn">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Coffee Haven</h3>
+        <p>Where every sip tells a story. Join us for exceptional coffee, warm hospitality, and memorable moments.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Contact Info</h3>
+        <ul class="footer-links">
+          <li><i class="fas fa-map-marker-alt"></i> 123 Brew Street, Coffee District</li>
+          <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+          <li><i class="fas fa-envelope"></i> hello@coffeehaven.com</li>
+          <li><i class="fas fa-clock"></i> Open daily: 7AM - 9PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
       <p>&copy; 2025 Coffee Haven. All rights reserved.</p>
-      <p>
-        Follow us on
-        <a href="#">Instagram</a> |
-        <a href="#">Facebook</a> |
-        <a href="#">Twitter</a>
-      </p>
     </div>
   </footer>
 
-  <!-- JavaScript -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Cart elements
@@ -704,6 +978,5 @@
       });
     });
   </script>
-  <script src="cart.js"></script>
 </body>
 </html>
