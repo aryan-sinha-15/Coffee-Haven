@@ -1,85 +1,419 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Coffee Haven</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Coffee Haven</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <style>
+    :root {
+      --primary-color: #6F4E37;
+      --secondary-color: #C4A484;
+      --accent-color: #FFB347;
+      --light-bg: #FFF8F0;
+      --dark-text: #3E2723;
+      --light-text: #FFF8F0;
+    }
+    
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: var(--dark-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--light-bg);
+    }
+    
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+    
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .logo span {
+      color: var(--accent-color);
+    }
+    
+    /* Login Container */
+    .login-container {
+      max-width: 500px;
+      margin: 80px auto;
+      padding: 50px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .login-title {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .login-subtitle {
+      color: var(--dark-text);
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+    
+    /* Form Styles */
+    .login-form {
+      margin-top: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+      text-align: left;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-text);
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus {
+      border-color: var(--accent-color);
+      outline: none;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 15px 35px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      width: 100%;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    /* Divider */
+    .divider {
+      position: relative;
+      margin: 30px 0;
+      color: var(--dark-text);
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background-color: #ddd;
+    }
+    
+    .divider::before {
+      left: 0;
+    }
+    
+    .divider::after {
+      right: 0;
+    }
+    
+    /* Quick Login Options */
+    .quick-login-options {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .quick-login-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .quick-login-btn:hover {
+      transform: translateY(-5px);
+    }
+    
+    .google-login {
+      background-color: #DB4437;
+    }
+    
+    .facebook-login {
+      background-color: #4267B2;
+    }
+    
+    .twitter-login {
+      background-color: #1DA1F2;
+    }
+    
+    /* Links */
+    .register-text {
+      margin-top: 20px;
+      color: var(--dark-text);
+    }
+    
+    .register-text a {
+      color: var(--primary-color);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .register-text a:hover {
+      color: var(--accent-color);
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark-text);
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      position: relative;
+      width: 100%;
+      margin-top: auto;
+    }
+    
+    .copyright {
+      font-size: 1rem;
+    }
+    
+    /* Toastr Styles */
+    .toast {
+      font-family: 'Open Sans', sans-serif;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .login-container {
+        margin: 40px 20px;
+        padding: 30px;
+      }
+      
+      .login-title {
+        font-size: 2rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .login-container {
+        padding: 25px;
+      }
+      
+      .quick-login-options {
+        gap: 15px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo"><span>Coffee</span> Haven</div>
-        <p class="subtitle">Sign in to your account</p>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo"><span>Coffee</span> Haven</div>
+  </nav>
 
-        <!-- Login Form -->
-        <form id="loginForm" class="login-form">
-            <div class="form-group">
-                <label for="username">Email Address</label>
-                <input type="email" id="username" name="username" required placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="Enter your password">
-            </div>
-            <button type="submit" class="btn">Login</button>
-        </form>
+  <!-- Login Container -->
+  <div class="login-container">
+    <h2 class="login-title">Welcome Back</h2>
+    <p class="login-subtitle">Sign in to your Coffee Haven account</p>
+    
+    <!-- Login Form -->
+    <form id="loginForm" class="login-form">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="Enter your password">
+      </div>
+      <button type="submit" class="btn">Login</button>
+    </form>
 
-        <p class="divider">OR</p>
+    <p class="divider">OR</p>
 
-        <!-- Quick Login Options -->
-        <div class="quick-login-options">
-            <div class="quick-login-btn google-login" id="googleLogin" onclick="googleLogin()">
-                <i class="fab fa-google"></i>
-            </div>
-            <div class="quick-login-btn facebook-login" id="facebookLogin" onclick="facebookLogin()">
-                <i class="fab fa-facebook-f"></i>
-            </div>
-            <div class="quick-login-btn twitter-login" id="twitterLogin" onclick="twitterLogin()">
-                <i class="fab fa-twitter"></i>
-            </div>
-        </div>
-
-        <p class="register-text">Don't have an account? <a href="signup.html">Create one</a></p>
-        <p class="register-text">Continue as <a href="#" id="guestLink">Guest</a></p>
+    <!-- Quick Login Options -->
+    <div class="quick-login-options">
+      <div class="quick-login-btn google-login" id="googleLogin">
+        <i class="fab fa-google"></i>
+      </div>
+      <div class="quick-login-btn facebook-login" id="facebookLogin">
+        <i class="fab fa-facebook-f"></i>
+      </div>
+      <div class="quick-login-btn twitter-login" id="twitterLogin">
+        <i class="fab fa-twitter"></i>
+      </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle form submission
-            document.getElementById('loginForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                
-                auth.signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        toastr.success('Login successful!');
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 1500);
-                    })
-                    .catch((error) => {
-                        toastr.error('Login failed: ' + error.message);
-                    });
-            });
-            
-            // Guest login
-            document.getElementById('guestLink').addEventListener('click', function(e) {
-                e.preventDefault();
-                localStorage.setItem('coffeeHavenGuest', 'true');
-                window.location.href = 'index.html';
-            });
-        });
-    </script>
+    <p class="register-text">Don't have an account? <a href="signup.html">Sign up</a></p>
+    <p class="register-text">Continue as <a href="index.html" id="guestLink">Guest</a></p>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="copyright">
+      <p>&copy; 2025 Coffee Haven. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    // Initialize toastr
+    toastr.options = {
+      "closeButton": true,
+      "progressBar": true,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": true,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "3000",
+      "extendedTimeOut": "1000"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Handle form submission
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Simple validation
+        if (!email || !password) {
+          toastr.error('Please fill in all fields');
+          return;
+        }
+        
+        auth.signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            toastr.success('Login successful! Redirecting...');
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 1500);
+          })
+          .catch((error) => {
+            toastr.error('Login failed: ' + error.message);
+          });
+      });
+      
+      // Guest login
+      document.getElementById('guestLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.setItem('coffeeHavenGuest', 'true');
+        window.location.href = 'index.html';
+      });
+      
+      // Google login
+      document.getElementById('googleLogin').addEventListener('click', function() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider)
+          .then((result) => {
+            toastr.success('Google login successful! Redirecting...');
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 1500);
+          })
+          .catch((error) => {
+            toastr.error('Google login failed: ' + error.message);
+          });
+      });
+      
+      // Facebook login
+      document.getElementById('facebookLogin').addEventListener('click', function() {
+        const provider = new firebase.auth.FacebookAuthProvider();
+        auth.signInWithPopup(provider)
+          .then((result) => {
+            toastr.success('Facebook login successful! Redirecting...');
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 1500);
+          })
+          .catch((error) => {
+            toastr.error('Facebook login failed: ' + error.message);
+          });
+      });
+      
+      // Twitter login
+      document.getElementById('twitterLogin').addEventListener('click', function() {
+        const provider = new firebase.auth.TwitterAuthProvider();
+        auth.signInWithPopup(provider)
+          .then((result) => {
+            toastr.success('Twitter login successful! Redirecting...');
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 1500);
+          })
+          .catch((error) => {
+            toastr.error('Twitter login failed: ' + error.message);
+          });
+      });
+    });
+  </script>
 </body>
 </html>

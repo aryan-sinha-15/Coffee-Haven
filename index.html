@@ -73,6 +73,8 @@
     
     .nav-links li {
       margin-left: 30px;
+      display: flex;
+      align-items: center;
     }
     
     .nav-links a {
@@ -884,6 +886,26 @@
       background-color: #1DA1F2;
     }
     
+    /* Auth Status */
+    .auth-status {
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+    }
+    
+    .auth-btn {
+      background: none;
+      border: none;
+      color: var(--dark-text);
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    
+    .auth-btn:hover {
+      color: var(--accent-color);
+    }
+    
     /* Responsive */
     @media (max-width: 992px) {
       .hero h1 {
@@ -1017,8 +1039,8 @@
           <span class="cart-count">0</span>
         </div>
       </li>
-      <li id="auth-status">
-        <!-- Auth status will be inserted here -->
+      <li class="auth-status" id="authStatus">
+        <button class="auth-btn" id="authBtn">Login</button>
       </li>
     </ul>
   </nav>
@@ -1319,6 +1341,7 @@
         this.loadCart();
         this.setupEventListeners();
         this.updateCartCount();
+        this.updateAuthStatus();
       },
       
       loadCart() {
@@ -1341,7 +1364,11 @@
         if (existingItem) {
           existingItem.quantity += 1;
         } else {
-          this.items.push({...item, quantity: 1});
+          this.items.push({
+            ...item, 
+            quantity: 1,
+            image: item.image || 'assets/images/default-coffee.jpg'
+          });
         }
         
         this.calculateTotal();
@@ -1349,12 +1376,6 @@
         this.renderCartItems();
         this.updateCartCount();
         toastr.success(`${item.name} added to cart!`);
-        
-        // Check if user is logged in
-        const user = localStorage.getItem('coffeeHavenUser');
-        if (!user && !localStorage.getItem('coffeeHavenGuest')) {
-          this.showLoginModal();
-        }
       },
       
       removeItem(itemId) {
@@ -1416,6 +1437,27 @@
         document.querySelector('.cart-count').textContent = count;
       },
       
+      updateAuthStatus() {
+        const authBtn = document.getElementById('authBtn');
+        const user = JSON.parse(localStorage.getItem('coffeeHavenUser'));
+        
+        if (user) {
+          authBtn.textContent = 'Logout';
+          authBtn.onclick = () => {
+            auth.signOut().then(() => {
+              localStorage.removeItem('coffeeHavenUser');
+              this.updateAuthStatus();
+              toastr.success('Logged out successfully');
+            });
+          };
+        } else {
+          authBtn.textContent = 'Login';
+          authBtn.onclick = () => {
+            window.location.href = 'login.html';
+          };
+        }
+      },
+      
       clearCart() {
         this.items = [];
         this.total = 0;
@@ -1446,11 +1488,11 @@
           this.closeCart();
           
           // Check if user is logged in or is guest
-          const user = localStorage.getItem('coffeeHavenUser');
+          const user = JSON.parse(localStorage.getItem('coffeeHavenUser'));
           const guest = localStorage.getItem('coffeeHavenGuest');
           
           if (user || guest) {
-            this.generateBill(user ? JSON.parse(user) : null);
+            this.generateBill(user || {name: 'Guest', email: 'guest@example.com'});
           } else {
             this.showLoginModal();
           }
@@ -1498,7 +1540,8 @@
             const item = {
               id: btn.dataset.id,
               name: btn.dataset.name,
-              price: parseFloat(btn.dataset.price)
+              price: parseFloat(btn.dataset.price),
+              image: btn.dataset.image || 'assets/images/default-coffee.jpg'
             };
             this.addItem(item);
           });
@@ -1579,7 +1622,7 @@
         doc.setFontSize(14);
         doc.setTextColor(111, 78, 55);
         doc.text('Total:', 160, finalY);
-        doc.text(`$${this.total.toFixed(2)}`, 190, finalY, { align: 'right' });
+        doc.text(`$${(this.total * 1.1).toFixed(2)}`, 190, finalY, { align: 'right' });
         
         // Add thank you message
         doc.setFontSize(12);
@@ -1644,24 +1687,22 @@
           return;
         }
         
-        // In a real app, you would send this to your server
-        // For demo purposes, we'll just simulate a successful login
-        toastr.success('Login successful!');
-        
-        // Store user info
-        localStorage.setItem('coffeeHavenUser', JSON.stringify({
-          email: email,
-          name: email.split('@')[0] // Just for demo
-        }));
-        
-        // Generate bill with user info
-        cart.generateBill({
-          name: email.split('@')[0],
-          email: email
-        });
-        
-        // Hide login modal
-        cart.hideLoginModal();
+        // Firebase authentication
+        auth.signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            localStorage.setItem('coffeeHavenUser', JSON.stringify({
+              uid: user.uid,
+              email: user.email,
+              name: user.displayName || email.split('@')[0]
+            }));
+            cart.updateAuthStatus();
+            cart.hideLoginModal();
+            toastr.success('Login successful!');
+          })
+          .catch((error) => {
+            toastr.error('Login failed: ' + error.message);
+          });
       });
       
       // Guest checkout
@@ -1673,29 +1714,60 @@
       
       // Quick login buttons
       document.querySelector('.google-login').addEventListener('click', function() {
-        // This would normally trigger the Google Identity Services flow
-        // For demo, we'll simulate a successful login
-        toastr.success('Google login successful!');
-        
-        localStorage.setItem('coffeeHavenUser', JSON.stringify({
-          email: 'demo@gmail.com',
-          name: 'Google User'
-        }));
-        
-        cart.generateBill({
-          name: 'Google User',
-          email: 'demo@gmail.com'
-        });
-        
-        cart.hideLoginModal();
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider)
+          .then((result) => {
+            const user = result.user;
+            localStorage.setItem('coffeeHavenUser', JSON.stringify({
+              uid: user.uid,
+              email: user.email,
+              name: user.displayName
+            }));
+            cart.updateAuthStatus();
+            cart.hideLoginModal();
+            toastr.success('Google login successful!');
+          })
+          .catch((error) => {
+            toastr.error('Google login failed: ' + error.message);
+          });
       });
       
       document.querySelector('.facebook-login').addEventListener('click', function() {
-        toastr.info('Facebook login would be implemented here');
+        const provider = new firebase.auth.FacebookAuthProvider();
+        auth.signInWithPopup(provider)
+          .then((result) => {
+            const user = result.user;
+            localStorage.setItem('coffeeHavenUser', JSON.stringify({
+              uid: user.uid,
+              email: user.email,
+              name: user.displayName
+            }));
+            cart.updateAuthStatus();
+            cart.hideLoginModal();
+            toastr.success('Facebook login successful!');
+          })
+          .catch((error) => {
+            toastr.error('Facebook login failed: ' + error.message);
+          });
       });
       
       document.querySelector('.twitter-login').addEventListener('click', function() {
-        toastr.info('Twitter login would be implemented here');
+        const provider = new firebase.auth.TwitterAuthProvider();
+        auth.signInWithPopup(provider)
+          .then((result) => {
+            const user = result.user;
+            localStorage.setItem('coffeeHavenUser', JSON.stringify({
+              uid: user.uid,
+              email: user.email,
+              name: user.displayName
+            }));
+            cart.updateAuthStatus();
+            cart.hideLoginModal();
+            toastr.success('Twitter login successful!');
+          })
+          .catch((error) => {
+            toastr.error('Twitter login failed: ' + error.message);
+          });
       });
     });
   </script>
