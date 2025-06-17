@@ -6,6 +6,8 @@
   <title>Coffee Haven | Home</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <style>
     :root {
       --primary-color: #6F4E37;
@@ -565,6 +567,323 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
+    /* Cart Styles */
+    .cart-icon {
+      position: relative;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: var(--accent-color);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    
+    .cart-modal {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100vh;
+      background-color: white;
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      z-index: 2000;
+      transition: right 0.3s ease;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    
+    .cart-modal.active {
+      right: 0;
+    }
+    
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .cart-title {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+    }
+    
+    .close-cart {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--dark-text);
+    }
+    
+    .cart-items {
+      margin-bottom: 30px;
+    }
+    
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .cart-item-info {
+      flex: 1;
+    }
+    
+    .cart-item-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .cart-item-price {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .cart-item-actions {
+      display: flex;
+      align-items: center;
+    }
+    
+    .cart-item-quantity {
+      margin: 0 10px;
+      width: 30px;
+      text-align: center;
+    }
+    
+    .quantity-btn {
+      background-color: var(--light-bg);
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    
+    .remove-item {
+      color: #ff6b6b;
+      margin-left: 15px;
+      cursor: pointer;
+    }
+    
+    .cart-total {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      text-align: right;
+      margin: 20px 0;
+    }
+    
+    .cart-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .checkout-btn {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .checkout-btn:hover {
+      background-color: var(--dark-text);
+    }
+    
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1500;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .cart-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* Login Modal Styles */
+    .login-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      z-index: 2500;
+      max-width: 500px;
+      width: 90%;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .login-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .login-title {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .login-subtitle {
+      color: var(--dark-text);
+    }
+    
+    .login-form-group {
+      margin-bottom: 20px;
+    }
+    
+    .login-form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-text);
+    }
+    
+    .login-form-group input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    
+    .login-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 30px;
+    }
+    
+    .login-btn {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    
+    .login-btn:hover {
+      background-color: var(--primary-color);
+    }
+    
+    .login-alt {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .login-alt a {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .guest-checkout {
+      background-color: transparent;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+    
+    .guest-checkout:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    /* Quick Login Options */
+    .quick-login {
+      margin: 30px 0;
+      text-align: center;
+    }
+    
+    .quick-login-title {
+      position: relative;
+      margin-bottom: 25px;
+      color: var(--dark-text);
+    }
+    
+    .quick-login-title::before,
+    .quick-login-title::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background-color: #ddd;
+    }
+    
+    .quick-login-title::before {
+      left: 0;
+    }
+    
+    .quick-login-title::after {
+      right: 0;
+    }
+    
+    .quick-login-options {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    .quick-login-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .quick-login-btn:hover {
+      transform: translateY(-5px);
+    }
+    
+    .google-login {
+      background-color: #DB4437;
+    }
+    
+    .facebook-login {
+      background-color: #4267B2;
+    }
+    
+    .twitter-login {
+      background-color: #1DA1F2;
+    }
+    
     /* Responsive */
     @media (max-width: 992px) {
       .hero h1 {
@@ -642,6 +961,15 @@
       .form-group select {
         width: 100%;
       }
+      
+      .cart-modal {
+        width: 100%;
+        right: -100%;
+      }
+      
+      .cart-modal.active {
+        right: 0;
+      }
     }
     
     @media (max-width: 576px) {
@@ -683,6 +1011,15 @@
       <li><a href="blog.html">Blog</a></li>
       <li><a href="reviews.html">Reviews</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li>
+        <div class="cart-icon">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </div>
+      </li>
+      <li id="auth-status">
+        <!-- Auth status will be inserted here -->
+      </li>
     </ul>
   </nav>
 
@@ -727,6 +1064,7 @@
           </div>
           <h3>Ethically Sourced</h3>
           <p>We partner directly with farmers to ensure fair trade and sustainable practices from bean to cup.</p>
+          <button class="btn add-to-cart" data-id="1" data-name="Ethical Coffee Package" data-price="12.99" style="margin-top: 20px;">Add to Cart</button>
         </div>
         <div class="feature-card">
           <div class="feature-icon">
@@ -734,6 +1072,7 @@
           </div>
           <h3>Expert Baristas</h3>
           <p>Our certified baristas undergo rigorous training to perfect every espresso shot and milk texture.</p>
+          <button class="btn add-to-cart" data-id="2" data-name="Barista Experience" data-price="9.99" style="margin-top: 20px;">Add to Cart</button>
         </div>
         <div class="feature-card">
           <div class="feature-icon">
@@ -741,6 +1080,7 @@
           </div>
           <h3>Community Focused</h3>
           <p>We host weekly events, support local artists, and create spaces for meaningful connections.</p>
+          <button class="btn add-to-cart" data-id="3" data-name="Community Membership" data-price="5.99" style="margin-top: 20px;">Add to Cart</button>
         </div>
       </div>
     </div>
@@ -891,8 +1231,376 @@
     </div>
   </footer>
 
+  <!-- Cart Modal -->
+  <div class="cart-overlay"></div>
+  <div class="cart-modal">
+    <div class="cart-header">
+      <h3 class="cart-title">Your Cart</h3>
+      <i class="fas fa-times close-cart"></i>
+    </div>
+    <div class="cart-items">
+      <!-- Cart items will be added dynamically -->
+    </div>
+    <div class="cart-total">
+      Total: $<span class="total-amount">0.00</span>
+    </div>
+    <div class="cart-actions">
+      <button class="btn checkout-btn">Proceed to Checkout</button>
+      <button class="btn btn-outline continue-shopping">Continue Shopping</button>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="login-modal">
+    <div class="login-header">
+      <h3 class="login-title">Welcome Back!</h3>
+      <p class="login-subtitle">Sign in to complete your purchase</p>
+    </div>
+    <form id="loginForm">
+      <div class="login-form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required>
+      </div>
+      <div class="login-form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required>
+      </div>
+      <div class="login-actions">
+        <button type="button" class="btn guest-checkout">Continue as Guest</button>
+        <button type="submit" class="btn login-btn">Login</button>
+      </div>
+    </form>
+    <div class="quick-login">
+      <p class="quick-login-title">Or sign in with</p>
+      <div class="quick-login-options">
+        <div class="quick-login-btn google-login">
+          <i class="fab fa-google"></i>
+        </div>
+        <div class="quick-login-btn facebook-login">
+          <i class="fab fa-facebook-f"></i>
+        </div>
+        <div class="quick-login-btn twitter-login">
+          <i class="fab fa-twitter"></i>
+        </div>
+      </div>
+    </div>
+    <p class="login-alt">Don't have an account? <a href="signup.html">Sign up</a></p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/cart.js"></script>
   <script>
-    // Simple interactive elements
+    // Initialize toastr
+    toastr.options = {
+      "closeButton": true,
+      "progressBar": true,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": true,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "3000",
+      "extendedTimeOut": "1000"
+    };
+
+    // Cart functionality
+    const cart = {
+      items: [],
+      total: 0,
+      
+      init() {
+        this.loadCart();
+        this.setupEventListeners();
+        this.updateCartCount();
+      },
+      
+      loadCart() {
+        const savedCart = localStorage.getItem('coffeeHavenCart');
+        if (savedCart) {
+          this.items = JSON.parse(savedCart);
+          this.calculateTotal();
+          this.renderCartItems();
+        }
+      },
+      
+      saveCart() {
+        localStorage.setItem('coffeeHavenCart', JSON.stringify(this.items));
+      },
+      
+      addItem(item) {
+        // Check if item already exists in cart
+        const existingItem = this.items.find(i => i.id === item.id);
+        
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          this.items.push({...item, quantity: 1});
+        }
+        
+        this.calculateTotal();
+        this.saveCart();
+        this.renderCartItems();
+        this.updateCartCount();
+        toastr.success(`${item.name} added to cart!`);
+        
+        // Check if user is logged in
+        const user = localStorage.getItem('coffeeHavenUser');
+        if (!user && !localStorage.getItem('coffeeHavenGuest')) {
+          this.showLoginModal();
+        }
+      },
+      
+      removeItem(itemId) {
+        this.items = this.items.filter(item => item.id !== itemId);
+        this.calculateTotal();
+        this.saveCart();
+        this.renderCartItems();
+        this.updateCartCount();
+      },
+      
+      updateQuantity(itemId, newQuantity) {
+        const item = this.items.find(i => i.id === itemId);
+        if (item) {
+          item.quantity = newQuantity;
+          if (item.quantity <= 0) {
+            this.removeItem(itemId);
+          } else {
+            this.calculateTotal();
+            this.saveCart();
+            this.renderCartItems();
+          }
+        }
+      },
+      
+      calculateTotal() {
+        this.total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      },
+      
+      renderCartItems() {
+        const cartItemsEl = document.querySelector('.cart-items');
+        const totalAmountEl = document.querySelector('.total-amount');
+        
+        if (this.items.length === 0) {
+          cartItemsEl.innerHTML = '<p>Your cart is empty</p>';
+          totalAmountEl.textContent = '0.00';
+          return;
+        }
+        
+        cartItemsEl.innerHTML = this.items.map(item => `
+          <div class="cart-item" data-id="${item.id}">
+            <div class="cart-item-info">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+            </div>
+            <div class="cart-item-actions">
+              <button class="quantity-btn minus">-</button>
+              <input type="number" class="cart-item-quantity" value="${item.quantity}" min="1">
+              <button class="quantity-btn plus">+</button>
+              <i class="fas fa-trash remove-item"></i>
+            </div>
+          </div>
+        `).join('');
+        
+        totalAmountEl.textContent = this.total.toFixed(2);
+      },
+      
+      updateCartCount() {
+        const count = this.items.reduce((sum, item) => sum + item.quantity, 0);
+        document.querySelector('.cart-count').textContent = count;
+      },
+      
+      clearCart() {
+        this.items = [];
+        this.total = 0;
+        this.saveCart();
+        this.renderCartItems();
+        this.updateCartCount();
+      },
+      
+      setupEventListeners() {
+        // Toggle cart modal
+        document.querySelector('.cart-icon').addEventListener('click', () => {
+          document.querySelector('.cart-modal').classList.add('active');
+          document.querySelector('.cart-overlay').classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+        
+        document.querySelector('.close-cart').addEventListener('click', this.closeCart.bind(this));
+        document.querySelector('.cart-overlay').addEventListener('click', this.closeCart.bind(this));
+        document.querySelector('.continue-shopping').addEventListener('click', this.closeCart.bind(this));
+        
+        // Checkout button
+        document.querySelector('.checkout-btn').addEventListener('click', () => {
+          if (this.items.length === 0) {
+            toastr.warning('Your cart is empty');
+            return;
+          }
+          
+          this.closeCart();
+          
+          // Check if user is logged in or is guest
+          const user = localStorage.getItem('coffeeHavenUser');
+          const guest = localStorage.getItem('coffeeHavenGuest');
+          
+          if (user || guest) {
+            this.generateBill(user ? JSON.parse(user) : null);
+          } else {
+            this.showLoginModal();
+          }
+        });
+        
+        // Quantity changes
+        document.addEventListener('click', (e) => {
+          if (e.target.classList.contains('minus')) {
+            const itemEl = e.target.closest('.cart-item');
+            const itemId = itemEl.dataset.id;
+            const quantityInput = itemEl.querySelector('.cart-item-quantity');
+            const newQuantity = parseInt(quantityInput.value) - 1;
+            this.updateQuantity(itemId, newQuantity);
+          }
+          
+          if (e.target.classList.contains('plus')) {
+            const itemEl = e.target.closest('.cart-item');
+            const itemId = itemEl.dataset.id;
+            const quantityInput = itemEl.querySelector('.cart-item-quantity');
+            const newQuantity = parseInt(quantityInput.value) + 1;
+            this.updateQuantity(itemId, newQuantity);
+          }
+          
+          if (e.target.classList.contains('remove-item')) {
+            const itemId = e.target.closest('.cart-item').dataset.id;
+            this.removeItem(itemId);
+          }
+        });
+        
+        // Input quantity changes
+        document.addEventListener('change', (e) => {
+          if (e.target.classList.contains('cart-item-quantity')) {
+            const itemId = e.target.closest('.cart-item').dataset.id;
+            const newQuantity = parseInt(e.target.value);
+            if (!isNaN(newQuantity)) {
+              this.updateQuantity(itemId, newQuantity);
+            }
+          }
+        });
+        
+        // Add to cart buttons
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const item = {
+              id: btn.dataset.id,
+              name: btn.dataset.name,
+              price: parseFloat(btn.dataset.price)
+            };
+            this.addItem(item);
+          });
+        });
+      },
+      
+      closeCart() {
+        document.querySelector('.cart-modal').classList.remove('active');
+        document.querySelector('.cart-overlay').classList.remove('active');
+        document.body.style.overflow = '';
+      },
+      
+      showLoginModal() {
+        document.querySelector('.login-modal').classList.add('active');
+        document.querySelector('.cart-overlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+      },
+      
+      hideLoginModal() {
+        document.querySelector('.login-modal').classList.remove('active');
+        document.querySelector('.cart-overlay').classList.remove('active');
+        document.body.style.overflow = '';
+      },
+      
+      generateBill(userInfo = null) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        // Add logo and title
+        doc.setFontSize(22);
+        doc.setTextColor(111, 78, 55); // Coffee brown color
+        doc.text('Coffee Haven', 105, 20, { align: 'center' });
+        
+        doc.setFontSize(12);
+        doc.setTextColor(100, 100, 100);
+        doc.text('123 Brew Street, Coffee District', 105, 28, { align: 'center' });
+        doc.text('Tel: (123) 456-7890 | Email: hello@coffeehaven.com', 105, 32, { align: 'center' });
+        
+        // Add date
+        const now = new Date();
+        doc.text(`Date: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`, 14, 40);
+        
+        // Add customer info if available
+        if (userInfo) {
+          doc.text(`Customer: ${userInfo.name}`, 14, 48);
+          doc.text(`Email: ${userInfo.email}`, 14, 52);
+        } else {
+          doc.text('Customer: Guest', 14, 48);
+        }
+        
+        // Add line separator
+        doc.setDrawColor(196, 164, 132); // Light coffee color
+        doc.line(14, 58, 196, 58);
+        
+        // Add items table
+        doc.autoTable({
+          startY: 62,
+          head: [['Item', 'Quantity', 'Price', 'Total']],
+          body: this.items.map(item => [
+            item.name,
+            item.quantity,
+            `$${item.price.toFixed(2)}`,
+            `$${(item.price * item.quantity).toFixed(2)}`
+          ]),
+          theme: 'grid',
+          headStyles: {
+            fillColor: [111, 78, 55], // Coffee brown color
+            textColor: 255
+          },
+          alternateRowStyles: {
+            fillColor: [255, 248, 240] // Light cream color
+          },
+          margin: { top: 10 }
+        });
+        
+        // Add total
+        const finalY = doc.lastAutoTable.finalY + 10;
+        doc.setFontSize(14);
+        doc.setTextColor(111, 78, 55);
+        doc.text('Total:', 160, finalY);
+        doc.text(`$${this.total.toFixed(2)}`, 190, finalY, { align: 'right' });
+        
+        // Add thank you message
+        doc.setFontSize(12);
+        doc.setTextColor(100, 100, 100);
+        doc.text('Thank you for your purchase!', 105, finalY + 15, { align: 'center' });
+        doc.text('We hope to see you again soon.', 105, finalY + 20, { align: 'center' });
+        
+        // Save the PDF
+        doc.save(`CoffeeHaven_Receipt_${now.getTime()}.pdf`);
+        
+        // Clear cart after generating bill
+        this.clearCart();
+        
+        toastr.success('Thank you for your purchase! Your receipt has been downloaded.');
+      }
+    };
+    
+    // Initialize cart
+    cart.init();
+    
+    // Login functionality
     document.addEventListener('DOMContentLoaded', function() {
       // Smooth scrolling for anchor links
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -904,7 +1612,7 @@
         });
       });
       
-      // Gallery image click handler (would normally open a lightbox)
+      // Gallery image click handler
       document.querySelectorAll('.gallery-item').forEach(item => {
         item.addEventListener('click', function() {
           alert('In a full implementation, this would open a lightbox with the larger image!');
@@ -922,6 +1630,72 @@
         e.preventDefault();
         alert('Thank you for subscribing to our newsletter!');
         this.reset();
+      });
+      
+      // Login form submission
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        // Simple validation
+        if (!email || !password) {
+          toastr.error('Please fill in all fields');
+          return;
+        }
+        
+        // In a real app, you would send this to your server
+        // For demo purposes, we'll just simulate a successful login
+        toastr.success('Login successful!');
+        
+        // Store user info
+        localStorage.setItem('coffeeHavenUser', JSON.stringify({
+          email: email,
+          name: email.split('@')[0] // Just for demo
+        }));
+        
+        // Generate bill with user info
+        cart.generateBill({
+          name: email.split('@')[0],
+          email: email
+        });
+        
+        // Hide login modal
+        cart.hideLoginModal();
+      });
+      
+      // Guest checkout
+      document.querySelector('.guest-checkout').addEventListener('click', function() {
+        localStorage.setItem('coffeeHavenGuest', 'true');
+        cart.generateBill();
+        cart.hideLoginModal();
+      });
+      
+      // Quick login buttons
+      document.querySelector('.google-login').addEventListener('click', function() {
+        // This would normally trigger the Google Identity Services flow
+        // For demo, we'll simulate a successful login
+        toastr.success('Google login successful!');
+        
+        localStorage.setItem('coffeeHavenUser', JSON.stringify({
+          email: 'demo@gmail.com',
+          name: 'Google User'
+        }));
+        
+        cart.generateBill({
+          name: 'Google User',
+          email: 'demo@gmail.com'
+        });
+        
+        cart.hideLoginModal();
+      });
+      
+      document.querySelector('.facebook-login').addEventListener('click', function() {
+        toastr.info('Facebook login would be implemented here');
+      });
+      
+      document.querySelector('.twitter-login').addEventListener('click', function() {
+        toastr.info('Twitter login would be implemented here');
       });
     });
   </script>

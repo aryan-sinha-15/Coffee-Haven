@@ -3,8 +3,127 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== CURRENT YEAR IN FOOTER =====
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
+    // ===== CART FUNCTIONALITY =====
+    const cart = {
+        items: [],
+        total: 0,
+        
+        init() {
+            this.loadCart();
+            this.setupEventListeners();
+            this.updateCartCount();
+        },
+        
+        loadCart() {
+            const savedCart = localStorage.getItem('coffeeHavenCart');
+            if (savedCart) {
+                this.items = JSON.parse(savedCart);
+                this.calculateTotal();
+                this.updateCartCount();
+            }
+        },
+        
+        saveCart() {
+            localStorage.setItem('coffeeHavenCart', JSON.stringify(this.items));
+        },
+        
+        addItem(item) {
+            // Check if item already exists in cart
+            const existingItem = this.items.find(i => i.id === item.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                this.items.push({...item, quantity: 1});
+            }
+            
+            this.calculateTotal();
+            this.saveCart();
+            this.updateCartCount();
+            this.showAddToCartToast(item.name);
+        },
+        
+        removeItem(itemId) {
+            this.items = this.items.filter(item => item.id !== itemId);
+            this.calculateTotal();
+            this.saveCart();
+            this.updateCartCount();
+        },
+        
+        updateQuantity(itemId, newQuantity) {
+            const item = this.items.find(i => i.id === itemId);
+            if (item) {
+                item.quantity = newQuantity;
+                if (item.quantity <= 0) {
+                    this.removeItem(itemId);
+                } else {
+                    this.calculateTotal();
+                    this.saveCart();
+                }
+            }
+        },
+        
+        calculateTotal() {
+            this.total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        },
+        
+        updateCartCount() {
+            const count = this.items.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountEl = document.querySelector('.cart-count');
+            if (cartCountEl) {
+                cartCountEl.textContent = count;
+            }
+        },
+        
+        showAddToCartToast(itemName) {
+            toastr.success(`${itemName} added to cart!`);
+        },
+        
+        setupEventListeners() {
+            // Add to cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = {
+                        id: btn.dataset.id,
+                        name: btn.dataset.name,
+                        price: parseFloat(btn.dataset.price)
+                    };
+                    this.addItem(item);
+                    
+                    // Check if user is logged in
+                    const user = localStorage.getItem('coffeeHavenUser');
+                    if (!user) {
+                        this.showLoginModal();
+                    }
+                });
+            });
+            
+            // Cart icon click
+            const cartIcon = document.querySelector('.cart-icon');
+            if (cartIcon) {
+                cartIcon.addEventListener('click', () => {
+                    this.showCartModal();
+                });
+            }
+        },
+        
+        showCartModal() {
+            // This would show the cart modal with all items
+            console.log('Show cart modal with items:', this.items);
+        },
+        
+        showLoginModal() {
+            // This would show the login modal
+            console.log('Show login modal');
+            // In a real implementation, you would redirect to login page or show a modal
+            window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.pathname);
+        }
+    };
+    
+    // Initialize cart
+    cart.init();
+
     // ===== LAZY LOADING IMAGES WITH INTERSECTION OBSERVER =====
-    // PDF Requirement #13 - Performance Optimization
     if ('IntersectionObserver' in window) {
         const lazyImages = document.querySelectorAll('img[loading="lazy"]');
         
@@ -14,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     const img = entry.target;
                     img.classList.add('loaded');
                     
-                    // If the image hasn't loaded yet, load it
                     if (!img.complete) {
                         img.onload = function() {
                             img.classList.add('loaded');
@@ -25,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }, {
-            rootMargin: '200px 0px' // Load images 200px before they're visible
+            rootMargin: '200px 0px'
         });
         
         lazyImages.forEach(img => {
@@ -34,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ===== IMAGE SLIDER FUNCTIONALITY =====
-    // PDF Requirement #8 - Gallery/Slider
     const initSlider = function() {
         const slider = document.querySelector('.slider');
         const slides = document.querySelectorAll('.slide');
@@ -46,17 +163,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentSlide = 0;
         const maxSlide = slides.length - 1;
         
-        // Arrange slides next to each other
         slider.style.transform = 'translateX(0)';
         
-        // Next slide function
         const goToSlide = function(slide) {
             slides.forEach((s, i) => {
                 s.style.transform = `translateX(${100 * (i - slide)}%)`;
             });
         };
         
-        // Next slide
         const nextSlide = function() {
             if (currentSlide === maxSlide) {
                 currentSlide = 0;
@@ -67,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
             goToSlide(currentSlide);
         };
         
-        // Previous slide
         const prevSlide = function() {
             if (currentSlide === 0) {
                 currentSlide = maxSlide;
@@ -78,14 +191,11 @@ document.addEventListener('DOMContentLoaded', function() {
             goToSlide(currentSlide);
         };
         
-        // Event listeners
         btnNext.addEventListener('click', nextSlide);
         btnPrev.addEventListener('click', prevSlide);
         
-        // Auto-slide every 5 seconds
         let slideInterval = setInterval(nextSlide, 5000);
         
-        // Pause on hover
         slider.parentElement.addEventListener('mouseenter', () => {
             clearInterval(slideInterval);
         });
@@ -94,14 +204,12 @@ document.addEventListener('DOMContentLoaded', function() {
             slideInterval = setInterval(nextSlide, 5000);
         });
         
-        // Initialize slider
         goToSlide(0);
     };
     
     initSlider();
 
     // ===== ONLINE ORDERING MODAL =====
-    // PDF Requirement #9 - Optional Online Ordering
     const initOrderModal = function() {
         const orderBtns = document.querySelectorAll('.btn-order, [href="#order"]');
         const orderModal = document.getElementById('order-modal');
@@ -115,7 +223,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 orderModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 
-                // Focus on first input when modal opens
                 const firstInput = orderModal.querySelector('input, select, textarea');
                 if (firstInput) firstInput.focus();
             });
@@ -126,7 +233,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.overflow = '';
         });
         
-        // Close when clicking outside modal content
         orderModal.addEventListener('click', function(e) {
             if (e.target === orderModal) {
                 orderModal.classList.remove('active');
@@ -134,7 +240,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Close with Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && orderModal.classList.contains('active')) {
                 orderModal.classList.remove('active');
@@ -155,14 +260,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
                 
                 inputs.forEach(input => {
-                    // Reset error states
                     input.classList.remove('error');
                     const errorMsg = input.nextElementSibling;
                     if (errorMsg && errorMsg.classList.contains('error-message')) {
                         errorMsg.remove();
                     }
                     
-                    // Check validity
                     if (!input.value.trim()) {
                         showError(input, 'This field is required');
                         isValid = false;
@@ -177,18 +280,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (!isValid) {
                     e.preventDefault();
-                    // Focus on first invalid input
                     const firstInvalid = form.querySelector('.error');
                     if (firstInvalid) firstInvalid.focus();
                 }
             });
         });
         
-        // Helper function to show error messages
         function showError(input, message) {
             input.classList.add('error');
             
-            // Create error message element if it doesn't exist
             let errorMsg = input.nextElementSibling;
             if (!errorMsg || !errorMsg.classList.contains('error-message')) {
                 errorMsg = document.createElement('div');
@@ -200,13 +300,11 @@ document.addEventListener('DOMContentLoaded', function() {
             errorMsg.setAttribute('role', 'alert');
         }
         
-        // Email validation helper
         function isValidEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(email);
         }
         
-        // Phone validation helper (basic)
         function isValidPhone(phone) {
             const re = /^[\d\s\-\(\)\+]{10,}$/;
             return re.test(phone);
@@ -220,7 +318,6 @@ document.addEventListener('DOMContentLoaded', function() {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             
-            // Don't intercept in-page anchor links
             if (href === '#' || href === '#!') return;
             
             e.preventDefault();
@@ -235,7 +332,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
                 
-                // Update URL without jumping
                 if (history.pushState) {
                     history.pushState(null, null, href);
                 } else {
@@ -246,9 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ===== ACCESSIBILITY IMPROVEMENTS =====
-    // PDF Requirement #11 - Accessibility
     document.addEventListener('keydown', function(e) {
-        // Trap focus in modal when open
         const activeModal = document.querySelector('.modal.active');
         if (activeModal && e.key === 'Tab') {
             const focusable = activeModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -289,7 +383,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 observer.observe(element);
             });
         } else {
-            // Fallback for browsers without IntersectionObserver
             elements.forEach(element => {
                 element.classList.add('animated');
             });
@@ -300,7 +393,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===== SERVICE WORKER FOR OFFLINE SUPPORT =====
-// PDF Requirement #13 - Performance Optimization
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js').then(function(registration) {
@@ -310,6 +402,7 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
+
 // Menu Category Tabs Functionality
 function initMenuTabs() {
     const tabs = document.querySelectorAll('.category-tab');
@@ -317,24 +410,17 @@ function initMenuTabs() {
     
     tabs.forEach(tab => {
         tab.addEventListener('click', function() {
-            // Remove active class from all tabs
             tabs.forEach(t => t.classList.remove('active'));
-            
-            // Add active class to clicked tab
             this.classList.add('active');
             
-            // Get the category to show
             const category = this.dataset.category;
             
-            // Hide all menu sections
             menuSections.forEach(section => {
                 section.classList.add('hidden');
             });
             
-            // Show the selected category
             document.getElementById(category).classList.remove('hidden');
             
-            // Smooth scroll to the section
             document.getElementById(category).scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
@@ -347,11 +433,9 @@ function initMenuTabs() {
 document.addEventListener('DOMContentLoaded', function() {
     initMenuTabs();
     
-    // Additional menu item interactions
     const menuItems = document.querySelectorAll('.menu-item');
     
     menuItems.forEach(item => {
-        // Add click effect
         item.addEventListener('mousedown', function() {
             this.style.transform = 'translateY(2px)';
         });
@@ -364,19 +448,16 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'translateY(0)';
         });
         
-        // Add to order button functionality
         const orderBtn = item.querySelector('.btn');
         if (orderBtn) {
             orderBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const itemName = this.closest('.menu-item').querySelector('h3').textContent;
                 alert(`Added ${itemName} to your order!`);
-                // In a real implementation, this would add to a cart system
             });
         }
     });
     
-    // Menu item animation on scroll
     const animateMenuItems = function() {
         const items = document.querySelectorAll('.menu-item');
         

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Coffee Haven</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo"><span>Coffee</span> Haven</div>
+        <p class="subtitle">Sign in to your account</p>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="username">Email Address</label>
+                <input type="email" id="username" name="username" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <p class="divider">OR</p>
+
+        <!-- Quick Login Options -->
+        <div class="quick-login-options">
+            <div class="quick-login-btn google-login" id="googleLogin" onclick="googleLogin()">
+                <i class="fab fa-google"></i>
+            </div>
+            <div class="quick-login-btn facebook-login" id="facebookLogin" onclick="facebookLogin()">
+                <i class="fab fa-facebook-f"></i>
+            </div>
+            <div class="quick-login-btn twitter-login" id="twitterLogin" onclick="twitterLogin()">
+                <i class="fab fa-twitter"></i>
+            </div>
+        </div>
+
+        <p class="register-text">Don't have an account? <a href="signup.html">Create one</a></p>
+        <p class="register-text">Continue as <a href="#" id="guestLink">Guest</a></p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle form submission
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        toastr.success('Login successful!');
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1500);
+                    })
+                    .catch((error) => {
+                        toastr.error('Login failed: ' + error.message);
+                    });
+            });
+            
+            // Guest login
+            document.getElementById('guestLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.setItem('coffeeHavenGuest', 'true');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
